@@ -1,1 +1,42 @@
 text,label
+I paid for my ride but the payment is still showing as pending,billing
+I was charged extra for a ride that lasted only a few mintues,billing
+My monthly pass payment was deducted twice,billing
+I returned the bike but I still see a charge on my account,billing
+The amount charged is different from what I saw before unlocking the bike,billing
+I dont understand why I was charged another fee today,billing
+My refund has not arrived even after several days,billing
+The app charged me for a ride I did not take,billing
+I cancelled my subscription but the money was still taken from my card,billing
+There is an extra charge on my bank statement and I need help,billing
+The bike brakes are not working properly and I felt unsafe,bike_fault
+The tire was flat when I unlocked the bike,bike_fault
+The chain slipped off the bike,bike_fault
+The seat keeps moving down even after I adjust it,bike_fault
+The bike light is not workng during my evening ride,bike_fault
+One of the pedals feels loose and keeps making noise,bike_fault
+The handlebar is shaking and the bike is difficult to control,bike_fault
+I found a bike with a broken bell and damaged brakes,bike_fault
+The gears are not changing when I try to pedal,bike_fault
+Bike rattling,bike_fault
+The dock did not lock my bike properly when I returned it,station
+There were no bikes left at the station,station
+I tried returning my bike but all the docking spaces were occupied,station
+The station screen is not responding when I touch it,station
+The docking slot keeps rejecting my bike,station
+I could not find an available bike at the station this morning,station
+The station is showing available slots but none of them are working,station
+My bike was returned but the station did not confirm the parking,station
+The docking station near my college seems to be out of service,station
+I had to walk to another station because this one was completely full,station
+I cannot log in to my account even after entering the correct pasword,account
+I forgot my password and I am not receiving the reset link,account
+App logs out,account
+I am unable to verify my phone number because the code never arrives,account
+My account is showing the wrong email address,account
+I tried updating the app but now I cannot sign in,account
+My membership is not showing in my profile after I renewed it,account
+I cannot access my account and the login page keeps loading,account
+The app says my account already exists when I try to register,account
+I am having trouble changing the password for my account,account
+
