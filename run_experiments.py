@@ -211,7 +211,7 @@ def stage_final(cfg: dict, train, val, test, quick: bool) -> dict:
 
     try:
         own = load_own_messages()
-    except FileNotFoundError:
+    except (FileNotFoundError, ValueError):
         if not quick:
             raise
         own = None
