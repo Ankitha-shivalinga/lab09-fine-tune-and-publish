@@ -1,0 +1,23 @@
+# the saved model is about 250 MB: recreate it with python run_experiments.py
+model/
+quick_reports/
+trainer_output/
+
+# caches and environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+.env
+.gradio/
+flagged/
+.vscode/
+.DS_Store
+
+# never commit a token
+.huggingface/
+*.token
