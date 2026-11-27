@@ -22,8 +22,8 @@ python -c "import torch, transformers, gradio; print(torch.__version__, transfor
 python pin_versions.py   # pins requirements*.txt and space/requirements.txt
 
 # 2. the whole comparison: tuning, the grid, then the final check (writes reports/)
-#    the first run downloads distilbert-base-uncased (~270 MB); the grid takes
-#    roughly 30-60 minutes on a laptop CPU
+#    the first run downloads distilbert-base-uncased (~270 MB); the whole run
+#    took about 1-2 hours on a laptop CPU
 python run_experiments.py --quick       # 1-minute smoke test, writes quick_reports/
 python run_experiments.py               # or one stage at a time: --stage tune|grid|final
 
@@ -55,9 +55,9 @@ stage.
 | Method | What is trained | Settings |
 |---|---|---|
 | Most common label | nothing | predicts the commonest training label |
-| TF-IDF + logistic | word and word-pair TF-IDF, logistic regression | C = TODO |
-| DistilBERT, head only | the new head (~0.6 M parameters), body frozen | lr = TODO, epochs = TODO |
-| DistilBERT, full | all ~67 M parameters | lr = TODO, epochs = TODO |
+| TF-IDF + logistic | word and word-pair TF-IDF, logistic regression | C = 1.0 |
+| DistilBERT, head only | the new head (~0.6 M parameters), body frozen | lr = 3e-3, epochs = 10 |
+| DistilBERT, full | all ~67 M parameters | lr = 5e-5, epochs = 5 |
 
 Fine-tuning uses a hand-written loop (`finetune.py`): AdamW with weight decay 0.01,
 linear warm-up over the first 10% of steps then decay to zero, gradient clipping at
@@ -71,7 +71,8 @@ training rows with seed 0, scored on the validation rows only:
 TF-IDF C in {1, 10}; head-only lr in {1e-3, 3e-3} x epochs in {5, 10}; full
 fine-tuning lr in {3e-5, 5e-5} x epochs in {3, 5}. Every try is in
 `reports/tuning.csv` and the winners in `reports/settings.json`. The same settings
-were then used at every size.
+were then used at every size. The TF-IDF tuning scores (0.8542 for C = 1, 0.8500 for
+C = 10) came out identical on two different computers.
 
 **Fairness.** At each size and seed, all four methods are trained on exactly the same
 sampled rows and scored on the same 240 validation rows. One thing could not be made
@@ -84,22 +85,33 @@ Validation accuracy, mean and range over three seeds (from `reports/summary.csv`
 
 | Training rows | Most common | TF-IDF + logistic | Head only | Full fine-tuning |
 |---|---|---|---|---|
-| 50 | TODO | TODO | TODO | TODO |
-| 100 | TODO | TODO | TODO | TODO |
-| 200 | TODO | TODO | TODO | TODO |
-| 400 | TODO | TODO | TODO | TODO |
+| 50 | 0.288 | 0.632 (0.600-0.654) | **0.707** (0.663-0.738) | 0.654 (0.504-0.746) |
+| 100 | 0.288 | 0.767 (0.713-0.800) | 0.774 (0.746-0.813) | **0.829** (0.800-0.863) |
+| 200 | 0.288 | 0.832 (0.825-0.846) | 0.803 (0.792-0.813) | **0.890** (0.883-0.896) |
+| 400 | 0.288 | 0.858 (0.821-0.900) | 0.833 (0.829-0.838) | **0.911** (0.896-0.925) |
+
+At 50 rows the ranges overlap, and full fine-tuning swings from 0.50 to 0.75 with
+the seed, so no method can be called better. From 100 rows on, full fine-tuning
+has the highest mean; at 200 rows its lowest seed (0.883) is above TF-IDF's highest
+(0.846). Head-only training levels off near 0.83 and falls behind TF-IDF from 200
+rows.
 
 ![Learning curve](reports/learning_curve.png)
 
 **Final choice** (rule decided in advance: highest mean validation accuracy at 400
-rows): TODO. Scored once on the 240 test rows, each method trained on the same 400
+rows): **full fine-tuning** (0.911, against 0.858 for TF-IDF). Scored once on the 240 test rows, each method trained on the same 400
 rows (seed 0):
 
 | Method | Test accuracy | Test macro F1 |
 |---|---|---|
-| Most common label | TODO | TODO |
-| TF-IDF + logistic | TODO | TODO |
-| DistilBERT, TODO | TODO | TODO |
+| Most common label | 0.2917 | 0.1129 |
+| TF-IDF + logistic | 0.8625 | 0.8604 |
+| DistilBERT, full fine-tuning | **0.9167** | **0.9158** |
+
+The test result agrees with validation. On the validation rows the 28 vague messages
+are near chance for every method (full fine-tuning 0.32, TF-IDF 0.25), while on the
+212 clear ones full fine-tuning gets 0.99 and TF-IDF 0.93. So most of the remaining
+error comes from labels that cannot be known from the text.
 
 ![Confusion matrix](reports/confusion_matrix.png)
 
@@ -114,12 +126,14 @@ settings, and were scored once in the final stage.
 
 | Method | Accuracy | Macro F1 |
 |---|---|---|
-| Most common label | TODO | TODO |
-| TF-IDF + logistic | TODO | TODO |
-| DistilBERT, TODO | TODO | TODO |
+| Most common label | 0.250 | 0.100 |
+| TF-IDF + logistic | 0.975 (39 of 40) | 0.975 |
+| DistilBERT, full fine-tuning | 0.950 (38 of 40) | 0.948 |
 
-TODO: one or two sentences — does this match the test result, or does the
-generated data flatter the models?
+Both real methods did well, and the order flipped compared with the test rows, but
+the difference is one message out of 40, which is too small to call either one
+better. My messages were all clearly about one topic (no vague or mixed ones), which
+is probably why both scored higher here than on the generated test rows.
 
 ## Publishing
 
