@@ -1,0 +1,13 @@
+{
+  "tfidf_logreg": {
+    "C": 1.0
+  },
+  "ft_head": {
+    "lr": 0.003,
+    "epochs": 10
+  },
+  "ft_full": {
+    "lr": 5e-05,
+    "epochs": 5
+  }
+}

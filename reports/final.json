@@ -1,0 +1,69 @@
+{
+  "split_seed": 42,
+  "rule": "highest mean validation accuracy at the largest size",
+  "final_method": "ft_full",
+  "train_examples": 400,
+  "validation_mean_at_largest": {
+    "ft_full": 0.9111,
+    "ft_head": 0.8333,
+    "most_common": 0.2875,
+    "tfidf_logreg": 0.8583
+  },
+  "validation_vague_vs_clear": {
+    "most_common": {
+      "n_vague": 28,
+      "n_clear": 212,
+      "vague_accuracy": 0.2857,
+      "clear_accuracy": 0.2877
+    },
+    "tfidf_logreg": {
+      "n_vague": 28,
+      "n_clear": 212,
+      "vague_accuracy": 0.25,
+      "clear_accuracy": 0.934
+    },
+    "ft_full": {
+      "n_vague": 28,
+      "n_clear": 212,
+      "vague_accuracy": 0.3214,
+      "clear_accuracy": 0.9906
+    }
+  },
+  "test": {
+    "most_common": {
+      "accuracy": 0.2917,
+      "macro_f1": 0.1129
+    },
+    "tfidf_logreg": {
+      "accuracy": 0.8625,
+      "macro_f1": 0.8604
+    },
+    "ft_full": {
+      "accuracy": 0.9167,
+      "macro_f1": 0.9158
+    }
+  },
+  "own_messages": {
+    "most_common": {
+      "accuracy": 0.25,
+      "macro_f1": 0.1
+    },
+    "tfidf_logreg": {
+      "accuracy": 0.975,
+      "macro_f1": 0.9749
+    },
+    "ft_full": {
+      "accuracy": 0.95,
+      "macro_f1": 0.9484
+    }
+  },
+  "published_model": {
+    "method": "ft_full",
+    "variant": "full",
+    "train_examples": 400,
+    "seed": 0,
+    "lr": 5e-05,
+    "epochs": 5,
+    "batch_size": 16
+  }
+}
