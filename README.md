@@ -1,7 +1,7 @@
 # Lakeshore Ticket Sorter: fine-tuning against a baseline
 
 Model: https://huggingface.co/AnkithaShivalinga/lakeshore-ticket-sorter
-Space: not available on my account (see [Publishing](#publishing)); the Gradio app runs locally with `python app.py`
+Space: none, fallback used. My free Hugging Face account cannot host a Gradio Space (it is shown as a paid option), so the app is run from the Hub model ID and recorded in [reports/demo.mp4](reports/demo.mp4).
 
 ## What it does
 
@@ -27,8 +27,8 @@ python pin_versions.py   # pins requirements*.txt and space/requirements.txt
 python run_experiments.py --quick       # 1-minute smoke test, writes quick_reports/
 python run_experiments.py               # or one stage at a time: --stage tune|grid|final
 
-# 3. the app, locally (loads the model/ folder the final stage saved)
-python app.py
+# 3. the app (from the published Hub model, or `python app.py` for the local model/)
+python app.py AnkithaShivalinga/lakeshore-ticket-sorter
 
 # 4. checks
 python -m ruff format --check .
@@ -143,19 +143,26 @@ variant on validation) and writes its model card from `reports/final.json`.
 https://huggingface.co/AnkithaShivalinga/lakeshore-ticket-sorter, using the login
 from `hf auth login`. No token is stored in this repository.
 
-**Space (not available).** Creating the Gradio Space failed with
+**Space: none, fallback used.** Creating the Gradio Space failed with
 `402 Payment Required`. Hugging Face's message was: "Static Spaces are free for
 everyone, but hosting Gradio and Docker Spaces on free cpu-basic requires a PRO
-subscription." Some students in the class have this access and some do not; as
-advised, students without it submit the app on GitHub instead. The Space files are
-ready in `space/` (`app.py` loads the model by its Hub id, `requirements.txt`,
-and a README with Space metadata), so `python publish.py` will publish it as soon
-as the account has access.
+subscription." On the new-Space page, Gradio was shown as a paid option, so the
+free ZeroGPU route was not available on my account either. Following the
+instructor's fallback, the app is run from the Hub model ID and recorded. The Space
+files are still ready in `space/` (`app.py` loads the model by its Hub id,
+`requirements.txt`, and a README with Space metadata), so `python publish.py` will
+publish it once the account can host a Space.
 
-**The app, run locally.** `python app.py` starts the same Gradio app on
-http://127.0.0.1:7860 using the saved `model/` folder (or
-`python app.py AnkithaShivalinga/lakeshore-ticket-sorter` to load it from the Hub).
-It returns a score for every queue and shows a clear message when the box is empty:
+**Demo recording.** [reports/demo.mp4](reports/demo.mp4) is a 60- to 90-second
+screen recording of the app running from the Hub model:
+
+```bash
+python app.py AnkithaShivalinga/lakeshore-ticket-sorter
+```
+
+This downloads the published model from Hugging Face (not the local `model/`
+folder) and starts the Gradio app on http://127.0.0.1:7860. It returns a score for
+every queue and shows a clear message when the box is empty:
 
 ![App result for a billing message](reports/app_result.png)
 
