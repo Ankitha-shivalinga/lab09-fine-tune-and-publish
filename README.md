@@ -1,7 +1,7 @@
 # Lakeshore Ticket Sorter: fine-tuning against a baseline
 
 Model: https://huggingface.co/AnkithaShivalinga/lakeshore-ticket-sorter
-Space: https://huggingface.co/spaces/AnkithaShivalinga/lakeshore-ticket-sorter
+Space: not available on my account (see [Publishing](#publishing)); the Gradio app runs locally with `python app.py`
 
 ## What it does
 
@@ -137,17 +137,33 @@ is probably why both scored higher here than on the generated test rows.
 
 ## Publishing
 
-`share.py` saves the fine-tuned model (the better fine-tuned variant on validation)
-and writes its model card from `reports/final.json`. `publish.py` uploads `model/` to
-the model repository and `space/` to a Gradio Space, using the login from
-`hf auth login`. No token is stored in this repository. The Space (`space/app.py`)
-loads the model by its Hub id, returns a score for every queue, and shows a clear
-message when the text box is empty.
+**Model (published).** `share.py` saves the fine-tuned model (the better fine-tuned
+variant on validation) and writes its model card from `reports/final.json`.
+`publish.py` uploaded `model/` to
+https://huggingface.co/AnkithaShivalinga/lakeshore-ticket-sorter, using the login
+from `hf auth login`. No token is stored in this repository.
 
-```bash
-hf auth login            # once, on your own computer
-python publish.py
-```
+**Space (not available).** Creating the Gradio Space failed with
+`402 Payment Required`. Hugging Face's message was: "Static Spaces are free for
+everyone, but hosting Gradio and Docker Spaces on free cpu-basic requires a PRO
+subscription." Some students in the class have this access and some do not; as
+advised, students without it submit the app on GitHub instead. The Space files are
+ready in `space/` (`app.py` loads the model by its Hub id, `requirements.txt`,
+and a README with Space metadata), so `python publish.py` will publish it as soon
+as the account has access.
+
+**The app, run locally.** `python app.py` starts the same Gradio app on
+http://127.0.0.1:7860 using the saved `model/` folder (or
+`python app.py AnkithaShivalinga/lakeshore-ticket-sorter` to load it from the Hub).
+It returns a score for every queue and shows a clear message when the box is empty:
+
+![App result for a billing message](reports/app_result.png)
+
+![Clear message for empty text](reports/app_empty_error.png)
+
+A message with no topic ("hi, good morning") still got 76% `bike_fault`: the
+softmax scores always add up to one, so the model has to pick a queue even when the
+text gives it nothing to go on.
 
 ## Tests
 
