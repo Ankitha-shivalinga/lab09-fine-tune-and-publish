@@ -5,7 +5,7 @@ import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 # Change this to your own model repository before you publish.
-MODEL_ID = "YOUR-HF-USERNAME/lakeshore-ticket-sorter"
+MODEL_ID = "AnkithaShivalinga/lakeshore-ticket-sorter"
 MAX_LENGTH = 64
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)

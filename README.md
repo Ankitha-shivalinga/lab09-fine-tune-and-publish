@@ -1,7 +1,7 @@
 # Lakeshore Ticket Sorter: fine-tuning against a baseline
 
-Model: https://huggingface.co/YOUR-HF-USERNAME/lakeshore-ticket-sorter
-Space: https://huggingface.co/spaces/YOUR-HF-USERNAME/lakeshore-ticket-sorter
+Model: https://huggingface.co/AnkithaShivalinga/lakeshore-ticket-sorter
+Space: https://huggingface.co/spaces/AnkithaShivalinga/lakeshore-ticket-sorter
 
 ## What it does
 
