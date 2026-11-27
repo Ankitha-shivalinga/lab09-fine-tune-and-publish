@@ -3,7 +3,7 @@
 
 ## The result in one sentence
 
-At 400 training messages, full fine-tuning scored 0.917 on validation, which was better than TF-IDF, which scored 0.863.
+At 400 training messages, full fine-tuning scored 0.911 on validation, which was better than TF-IDF, which scored 0.858. On the test rows, full fine-tuning scored 0.917 and TF-IDF scored 0.863.
 
 ## Where fine-tuning helped and where it did not
 
